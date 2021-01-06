@@ -11,15 +11,26 @@ from multiprocessing import Process
 def homepage():
         #while True:
 
-        print('***************** WELCOME TO SNEK GAME******************')
-        print(' 1 - Play teh Snek Game  *=* ')
-        print(' 2 - Show teh Scoreboard *=* ') 
-        message = input("Enter your decision [ 1 / 2 ]: ")
-        print('\n********************************************************')
+	print('***************** WELCOME TO SNEK GAME******************')
+	print(' 1 - Play teh Snek Game  *=* ')
+	print(' 2 - Show teh Scoreboard *=* ') 
+	message = input("Enter your decision [ 1 / 2 ]: ")
+	print('\n********************************************************')
 
-        if message == '1':
-                snekgame()
-
+	if message == '1':
+		snekgame()
+	elif message == '2':
+		scoreboard()
+def scoreboard():
+	text_file = open("score.txt", "r")
+	s = text_file.read()
+	print(s)
+	
+	message = input("To exit please press [ y ]: ")
+	if message == 'y':
+		homepage()
+	else:
+		homepage()
 
 def snekgame():
 
