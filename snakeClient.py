@@ -4,6 +4,7 @@ import sys
 from curses import KEY_RIGHT, KEY_LEFT, KEY_UP, KEY_DOWN
 from random import randint
 
+
 clientSock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 host = '172.20.10.6'
 port = 8989
