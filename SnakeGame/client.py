@@ -206,13 +206,96 @@ def snakeH():
       else:
          print("Option is not valid! Please try again!")
 
+
+
+
+
+# function to view scoreboard for normal difficulty
+def scoreN()
+   #receive scoreboard text file sent from server and write it into a text file name score.txt
+   fname = 'scoreN.txt'
+   file = open(fname, 'wb')
+   file_data = clientSock.recv(1024)
+   file.write(file_data)
+   file.close()
+   print("\n\n")
+
+   score = [] #initialize empty array so that score can be append in the empty array
+
+   # open back the file that have been write and read the file
+   with open('score.txt', 'r') as filehandle:
+      filecontents = filehandle.readlines()
+      for line in filecontents: #for loop to read one by one score in the file
+         current_place = line[:-1]
+         score.append(current_place) #append all the score in the text file into the empty array (score = [])
+
+      # change the score that have been append to the array from string to integer
+      for i in range(0, len(score)):
+         score[i] = int(score[i])
+
+      # sort all the score in the  array from highest to lowest
+      board = sorted(score, reverse=True)
+   show_score() #display the scoreboard
+   input("Press Enter to continue...") #press enter to go back to menu()
+
+
+
+
+
+# function to view scoreboard for hard difficulty
+def scoreH()
+   #receive scoreboard text file sent from server and write it into a text file name score.txt
+   fname = 'scoreH.txt'
+   file = open(fname, 'wb')
+   file_data = clientSock.recv(1024)
+   file.write(file_data)
+   file.close()
+   print("\n\n")
+
+   score = [] #initialize empty array so that score can be append in the empty array
+
+   # open back the file that have been write and read the file
+   with open('score.txt', 'r') as filehandle:
+      filecontents = filehandle.readlines()
+      for line in filecontents: #for loop to read one by one score in the file
+         current_place = line[:-1]
+         score.append(current_place) #append all the score in the text file into the empty array (score = [])
+
+      # change the score that have been append to the array from string to integer
+      for i in range(0, len(score)):
+         score[i] = int(score[i])
+
+      # sort all the score in the  array from highest to lowest
+      board = sorted(score, reverse=True)
+   show_score() #display the scoreboard
+   input("Press Enter to continue...") #press enter to go back to menu()
+
+
+
+
+
+
+
+
+
 # function to show all score that have been kept in text
 def show_score():
-   print("\t\t******Scoreboard for Snake******\n")
+#   print("\t\t******Scoreboard for Snake******\n")
+#   i = 1
+#   for x in board:
+#      print("\t\t\t    ",i,":",x)
+#      i += 1
+
+   ascii()
+   print("\n\n\t\t\t\t******SCOREBOARD SNEKGAMEZ ARCADE******\n")
    i = 1
    for x in board:
-      print("\t\t\t    ",i,":",x)
+      print("\t\t\t\t\t        ",i,":",x        )
       i += 1
+      print("\t\t\t\t_______________________________________")
+
+
+
 
 # main menu
 def menu():
@@ -225,6 +308,10 @@ def menu():
    print("\t\t\t[3] QUIT GAME")
 
    print("\t\t***************************************************************************")
+
+
+
+
 
 # players can choos difficulty mode
 def difclty():
@@ -250,34 +337,42 @@ while True:
 
    ### option 2 will show all the score in the scoreboard from the highest to lowest
    elif opt == '2':
-      os.system('clear')
+#      os.system('clear')
       clientSock.send(str.encode(opt)) # send option number to server
 
-      #receive scoreboard text file sent from server and write it into a text file name score.txt
-      fname = 'score.txt'
-      file = open(fname, 'wb')
-      file_data = clientSock.recv(1024)
-      file.write(file_data)
-      file.close()
-      print("\n\n")
+      opt2 = input("Choose Scoreboard option - [a: Normal | b: Hard]: ")
+      clientSock.send(str.encode(opt2))
+      if opt2 == 'a':
+         scoreN()
+      elif opt2 == 'b':
+         scoreH()
 
-      score = [] #initialize empty array so that score can be append in the empty array
+
+#      #receive scoreboard text file sent from server and write it into a text file name score.txt
+#      fname = 'score.txt'
+#      file = open(fname, 'wb')
+#      file_data = clientSock.recv(1024)
+#      file.write(file_data)
+#      file.close()
+#      print("\n\n")
+
+#      score = [] #initialize empty array so that score can be append in the empty array
 
       # open back the file that have been write and read the file
-      with open('score.txt', 'r') as filehandle:
-         filecontents = filehandle.readlines()
-         for line in filecontents: #for loop to read one by one score in the file
-            current_place = line[:-1]
-            score.append(current_place) #append all the score in the text file into the empty array (score = [])
+#      with open('score.txt', 'r') as filehandle:
+#         filecontents = filehandle.readlines()
+#         for line in filecontents: #for loop to read one by one score in the file
+#            current_place = line[:-1]
+#            score.append(current_place) #append all the score in the text file into the empty array (score = [])
 
-         # change the score that have been append to the array from string to integer
-         for i in range(0, len(score)):
-            score[i] = int(score[i])
+#         # change the score that have been append to the array from string to integer
+#         for i in range(0, len(score)):
+#            score[i] = int(score[i])
 
          # sort all the score in the  array from highest to lowest
-         board = sorted(score, reverse=True)
-      show_score() #display the scoreboard
-      input("Press Enter to continue...") #press enter to go back to menu()
+#         board = sorted(score, reverse=True)
+#      show_score() #display the scoreboard
+#      input("Press Enter to continue...") #press enter to go back to menu()
 
    elif opt == 'q':
       clientSock.send(str.encode(opt))
