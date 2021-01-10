@@ -112,14 +112,14 @@ def snakeN():
    curses.endwin()
    print("\n\t\tScore - " + str(score)) #show score of the game
    points = int(score) #change score to int
-   clientSock.send(str.encode(opt)) #send option to server
+   #clientSock.send(str.encode(opt)) #send option to server
    clientSock.send(str(points).encode('utf-8')) #send score to server
 
    #will exit system for option [n], continue game if option [y], and loop back to question if option not valid
    while True:
       cnt = input("\t\tDo you want to continue playing? [y:Yes / n: No]: ")
       if cnt == 'n':
-         print("\t\tThank you! Arcade is shutting down...")
+         print("\t\tThank you for playing! Arcade is shutting down...")
          sys.exit()
       elif cnt == 'y':
          menu()
@@ -191,7 +191,7 @@ def snakeH():
    curses.endwin()
    print("\n\t\tScore - " + str(score)) #show latest score of snake game
    points = int(score) #change points into int
-   clientSock.send(str.encode(opt)) #send option number to server
+   #clientSock.send(str.encode(opt)) #send option number to server
    clientSock.send(str(points).encode('utf-8')) #send points to server
 
    #will exit system for option [n], continue game if option [y], and loop back to question if option not valid
@@ -280,15 +280,15 @@ def scoreH():
 
 
 # function to show all score that have been kept in text
-def show_score(board):
+def show_scoreN(board):
 #   print("\t\t******Scoreboard for Snake******\n")
 #   i = 1
 #   for x in board:
 #      print("\t\t\t    ",i,":",x)
 #      i += 1
-
+   os.system('clear')
    ascii()
-   print("\n\n\t\t\t\t******SCOREBOARD SNEKGAMEZ ARCADE******\n")
+   print("\n\n\t\t\t\t******SCOREBOARD SNEKGAMEZ ARCADE (NORMAL)******\n")
    i = 1
    for x in board:
       print("\t\t\t\t\t        ",i,":",x        )
@@ -296,6 +296,27 @@ def show_score(board):
       print("\t\t\t\t_______________________________________")
       if i == 11:
          break
+
+
+# function to show all score that have been kept in text
+def show_scoreH(board):
+#   print("\t\t******Scoreboard for Snake******\n")
+#   i = 1
+#   for x in board:
+#      print("\t\t\t    ",i,":",x)
+#      i += 1
+   os.system('clear')
+   ascii()
+   print("\n\n\t\t\t\t******SCOREBOARD SNEKGAMEZ ARCADE (HARD)******\n")
+   i = 1
+   for x in board:
+      print("\t\t\t\t\t        ",i,":",x        )
+      i += 1
+      print("\t\t\t\t_______________________________________")
+      if i == 11:
+         break
+
+
 
 
 
@@ -318,8 +339,8 @@ def menu():
 # players can choos difficulty mode
 def difclty():
    print("\n\t\t\tDIFFICULTY OPTION")
-   print("\t\t\t [1] NORMAL")
-   print("\t\t\t [2] HARD")
+   print("\t\t\t [a] NORMAL")
+   print("\t\t\t [b] HARD")
 
 
 
@@ -332,69 +353,102 @@ while True:
    opt = input("\n\t\t\tPick your selection: ")
    ### option 1 will ask player to choose difficulty mode (normal/hard)
    if opt == '1':
+      clientSock.send(str.encode(opt))
       difclty()
       difcl = input("\n\t\t\tEnter your difficulty option: ")
-      if difcl == '1': #option 1 for normal mode
+      if difcl == 'a': #option 1 for normal mode
+         clientSock.send(str.encode(difcl))
          snakeN()
 
-      elif difcl == '2': #option 2 for hard mode
+      elif difcl == 'b': #option 2 for hard mode
+         clientSock.send(str.encode(difcl))
          snakeH()
 
       else:
-         print("Unrecognize option!") #will output if unrecognize option entered
+         print("\t\t\tUnrecognize option!") #will output if unrecognize option entered
+         input("\t\t\tPress Enter to continue...")
 
    ### option 2 will show all the score in the scoreboard from the highest to lowest
    elif opt == '2':
-#      os.system('clear')
-      clientSock.send(str.encode(opt)) # send option number to server
+      clientSock.send(str.encode(opt))
+      opt2 = input("\t\t\tChoose Scoreboard option - [1:Normal | 2: Hard]: ")
+      clientSock.send(str.encode(opt2)) # send option number to server
 
-      opt2 = input("Choose Scoreboard option - [a: Normal | b: Hard]: ")
-      clientSock.send(str.encode(opt2))
-      if opt2 == 'a':
-         scoreN()
+      if opt2 == '1':
+
+#      opt2 = input("Choose Scoreboard option - [a: Normal | b: Hard]: ")
+#      clientSock.send(str.encode(opt2))
+#      if opt2 == 'a':
+#         scoreN()
 #      elif opt2 == 'b':
 #         scoreH()
 
 
-#      #receive scoreboard text file sent from server and write it into a text file name score.txt
-#      fname = 'score.txt'
-#      file = open(fname, 'wb')
-#      file_data = clientSock.recv(1024)
-#      file.write(file_data)
-#      file.close()
-#      print("\n\n")
+      #receive scoreboard text file sent from server and write it into a text file name score.txt
+         fname = 'scoreN.txt'
+         file = open(fname, 'wb')
+         file_data = clientSock.recv(1024)
+         file.write(file_data)
+         file.close()
+         print("\n\n")
 
-#      score = [] #initialize empty array so that score can be append in the empty array
+         score = [] #initialize empty array so that score can be append in the empty array
 
-      # open back the file that have been write and read the file
-#      with open('score.txt', 'r') as filehandle:
-#         filecontents = filehandle.readlines()
-#         for line in filecontents: #for loop to read one by one score in the file
-#            current_place = line[:-1]
-#            score.append(current_place) #append all the score in the text file into the empty array (score = [])
+         # open back the file that have been write and read the file
+         with open('scoreN.txt', 'r') as filehandle:
+            filecontents = filehandle.readlines()
+            for line in filecontents: #for loop to read one by one score in the file
+               current_place = line[:-1]
+               score.append(current_place) #append all the score in the text file into the empty array (score = [])
 
-#         # change the score that have been append to the array from string to integer
-#         for i in range(0, len(score)):
-#            score[i] = int(score[i])
+            # change the score that have been append to the array from string to integer
+            for i in range(0, len(score)):
+               score[i] = int(score[i])
 
-         # sort all the score in the  array from highest to lowest
-#         board = sorted(score, reverse=True)
-#      show_score() #display the scoreboard
-#      input("Press Enter to continue...") #press enter to go back to menu()
+            # sort all the score in the  array from highest to lowest
+            board = sorted(score, reverse=True)
+         show_scoreN(board) #display the scoreboard
+         input("\t\t\tPress Enter to continue...") #press enter to go back to menu()
 
-   elif opt == 'q':
-      clientSock.send(str.encode(opt))
-      clientSock.close()
-      sys.exit()
+      elif opt2 == '2':
+         fname = 'scoreH.txt'
+         file = open(fname, 'wb')
+         file_data = clientSock.recv(1024)
+         file.write(file_data)
+         file.close()
+         print("\n\n")
+
+         score = [] #initialize empty array so that score can be append in the empty array
+
+         # open back the file that have been write and read the file
+         with open('scoreH.txt', 'r') as filehandle:
+            filecontents = filehandle.readlines()
+            for line in filecontents: #for loop to read one by one score in the file
+               current_place = line[:-1]
+               score.append(current_place) #append all the score in the text file into the empty array (score = [])
+
+            # change the score that have been append to the array from string to integer
+            for i in range(0, len(score)):
+               score[i] = int(score[i])
+
+            # sort all the score in the  array from highest to lowest
+            board = sorted(score, reverse=True)
+         show_scoreH(board) #display the scoreboard
+         input("\t\t\tPress Enter to continue...") #press enter to go back to menu()
+
+      else:
+         print("\t\t\tInvalid input! Please try again")
+         input("\t\t\tPress Enter to continue...")
+
 
    # option to close and exit the program
    elif opt == '3':
-      print("Thank you for playing! Arcade is shutting down...")
+      print("\t\t\tThank you for playing! Arcade is shutting down...")
       clientSock.send(str.encode(opt))
       clientSock.close()
       sys.exit()
 
    # option if player enter unrecognizeable option, will loopback to menu()
    else:
-      print("\n\t\tUnrecognize option")
+      print("\n\t\tInvalid input")
       input("\t\tPress Enter to try again...")
