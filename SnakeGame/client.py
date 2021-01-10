@@ -211,7 +211,8 @@ def snakeH():
 
 
 # function to view scoreboard for normal difficulty
-def scoreN()
+def scoreN():
+   os.system('clear')
    #receive scoreboard text file sent from server and write it into a text file name score.txt
    fname = 'scoreN.txt'
    file = open(fname, 'wb')
@@ -223,7 +224,7 @@ def scoreN()
    score = [] #initialize empty array so that score can be append in the empty array
 
    # open back the file that have been write and read the file
-   with open('score.txt', 'r') as filehandle:
+   with open('scoreN.txt', 'r') as filehandle:
       filecontents = filehandle.readlines()
       for line in filecontents: #for loop to read one by one score in the file
          current_place = line[:-1]
@@ -235,7 +236,7 @@ def scoreN()
 
       # sort all the score in the  array from highest to lowest
       board = sorted(score, reverse=True)
-   show_score() #display the scoreboard
+   show_score(board) #display the scoreboard
    input("Press Enter to continue...") #press enter to go back to menu()
 
 
@@ -243,7 +244,7 @@ def scoreN()
 
 
 # function to view scoreboard for hard difficulty
-def scoreH()
+def scoreH():
    #receive scoreboard text file sent from server and write it into a text file name score.txt
    fname = 'scoreH.txt'
    file = open(fname, 'wb')
@@ -255,7 +256,7 @@ def scoreH()
    score = [] #initialize empty array so that score can be append in the empty array
 
    # open back the file that have been write and read the file
-   with open('score.txt', 'r') as filehandle:
+   with open('scoreH.txt', 'r') as filehandle:
       filecontents = filehandle.readlines()
       for line in filecontents: #for loop to read one by one score in the file
          current_place = line[:-1]
@@ -279,7 +280,7 @@ def scoreH()
 
 
 # function to show all score that have been kept in text
-def show_score():
+def show_score(board):
 #   print("\t\t******Scoreboard for Snake******\n")
 #   i = 1
 #   for x in board:
@@ -293,7 +294,8 @@ def show_score():
       print("\t\t\t\t\t        ",i,":",x        )
       i += 1
       print("\t\t\t\t_______________________________________")
-
+      if i == 11:
+         break
 
 
 
@@ -318,6 +320,12 @@ def difclty():
    print("\n\t\t\tDIFFICULTY OPTION")
    print("\t\t\t [1] NORMAL")
    print("\t\t\t [2] HARD")
+
+
+
+
+
+#### MAIN ####
 
 while True:
    menu()
@@ -344,8 +352,8 @@ while True:
       clientSock.send(str.encode(opt2))
       if opt2 == 'a':
          scoreN()
-      elif opt2 == 'b':
-         scoreH()
+#      elif opt2 == 'b':
+#         scoreH()
 
 
 #      #receive scoreboard text file sent from server and write it into a text file name score.txt
