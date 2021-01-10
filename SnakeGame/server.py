@@ -34,55 +34,106 @@ def threaded_client(conn):
       dataO = conn.recv(1024)
       opt = str(dataO.decode()) #received option number from client
       if opt == '1':
+         dataH = conn.recv(1024)
+         optH = str(dataH.decode())
 
-         score = [] #initialize empty array so that new score from text file can be append in score = []
+         if optH == 'a':
+            score = [] #initialize empty array so that new score from text file can be append in score = []
 
-         # will read score gather from client in the textfile (scoreboard.txt)
-         with open('scoreboard.txt', 'r') as filehandle:
-            filecontents = filehandle.readlines()
-            for line in filecontents: #loop to read every single line of the points in the text file
-               current_place = line[:-1]
-               score.append(current_place) #append the score in score = []
+            # will read score gather from client in the textfile (scoreboard.txt)
+            with open('scoreboardN.txt', 'r') as filehandle:
+               filecontents = filehandle.readlines()
+               for line in filecontents: #loop to read every single line of the points in the text file
+                  current_place = line[:-1]
+                  score.append(current_place) #append the score in score = []
 
-         data = conn.recv(1024)
-         points = data.decode('utf-8') #receive the points from clients and decode it
+            data = conn.recv(1024)
+            points = data.decode('utf-8') #receive the points from clients and decode it
 
-         scor = int(points) #convert the point received from client from string to integer
-         score.append(scor) #append the points that have been converted to integer into score = []
+            scor = int(points) #convert the point received from client from string to integer
+            score.append(scor) #append the points that have been converted to integer into score = []
 
-         # convert all points in the array from string to integer
-         for i in range(0, len(score)):
-            score[i] = int (score[i])
+            # convert all points in the array from string to integer
+            for i in range(0, len(score)):
+               score[i] = int(score[i])
 
-         board = [] #initialize new array to append the new points that have been converted to integer into board = []
+            board = [] #initialize new array to append the new points that have been converted to integer into board = []
 
-         # will check and loop and ignore any integer that have the same number in the array board = [] so that there will have no duplicate points in the array 
-         for i in score:
-            if i not in board:
-               board.append(i)
+            # will check and loop and ignore any integer that have the same number in the array board = [] so that there will have no duplicate points in the array 
+            for i in score:
+               if i not in board:
+                  board.append(i)
 
-         print("\t\tScoreboard: ",board) #print all the points in the board array
-#         print('Bye')
+            print("\t\tScoreboard for Normal Difficulty: ",board) #print all the points in the board array
+#            print('Bye')
 
-         # will overwrite the new score receive from client into the scoreboard.txt
-         with open('scoreboard.txt' , 'w') as filehandle:
-            filehandle.writelines("%s\n" % place for place in board)
+            # will overwrite the new score receive from client into the scoreboard.txt
+            with open('scoreboardN.txt' , 'w') as filehandle:
+               filehandle.writelines("%s\n" % place for place in board)
+#            print('done')
+
+         elif optH == 'b':
+            score = [] #initialize empty array so that new score from text file can be append in score = []
+
+            # will read score gather from client in the textfile (scoreboard.txt)
+            with open('scoreboardH.txt', 'r') as filehandle:
+               filecontents = filehandle.readlines()
+               for line in filecontents: #loop to read every single line of the points in the text file
+                  current_place = line[:-1]
+                  score.append(current_place) #append the score in score = []
+
+            data = conn.recv(1024)
+            points = data.decode('utf-8') #receive the points from clients and decode it
+
+            scor = int(points) #convert the point received from client from string to integer
+            score.append(scor) #append the points that have been converted to integer into score = []
+
+            # convert all points in the array from string to integer
+            for i in range(0, len(score)):
+               score[i] = int(score[i])
+
+            board = [] #initialize new array to append the new points that have been converted to integer into board>
+
+            # will check and loop and ignore any integer that have the same number in the array board = [] so that t>
+            for i in score:
+               if i not in board:
+                  board.append(i)
+
+            print("\t\tScoreboard for Normal Difficulty: ",board) #print all the points in the board array
+#            print('Bye')
+
+            # will overwrite the new score receive from client into the scoreboard.txt
+            with open('scoreboardH.txt' , 'w') as filehandle:
+               filehandle.writelines("%s\n" % place for place in board)
+#            print('done')
+
+
 
       elif opt == '2': # view scoreboard
-         fname = 'scoreboard.txt'
-         file = open(fname, 'rb')
-         file_data = file.read(1024) # will read the score in the text and save it in file_ data
-         conn.send(file_data) # send the file_data file to client so that client can view the scoreboard
-         print("File has been sent!")
+         dataD = conn.recv(1024)
+         optD = str(dataD.decode())
+         if optD == '1':
+            fname = 'scoreboardN.txt'
+            file = open(fname, 'rb')
+            file_data = file.read(1024) # will read the score in the text and save it in file_ data
+            conn.send(file_data) # send the file_data file to client so that client can view the scoreboard
+            print("\t\tFile has been sent!")
+
+         elif optD == '2':
+            fname = 'scoreboardH.txt'
+            file = open(fname, 'rb')
+            file_data = file.read(1024) # will read the score in the text and save it in file_ data
+            conn.send(file_data) # send the file_data file to client so that client can view the scoreboard
+            print("\t\tFile has been sent!")
 
       elif opt == 'q':
          print("bye")
          break
 
    conn.close()
-   s.close
-   sys.exit()
-   sys.exit()
+#   s.close
+#   sys.exit()
+#   sys.exit()
 
 #      else:
 #         break
