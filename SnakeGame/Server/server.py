@@ -29,7 +29,7 @@ s.listen(5)
 def threaded_client(conn):
    conn.send(("\n\t\t Dear gamers, ready to play?").encode('utf-8')) #send opening message to client
    while True:
-#      print("Hello")
+
 
       dataO = conn.recv(1024)
       opt = str(dataO.decode()) #received option number from client
@@ -37,7 +37,9 @@ def threaded_client(conn):
          dataH = conn.recv(1024)
          optH = str(dataH.decode())
 
-         if optH == 'a':
+
+
+         if optH == 'a': #normal difficulty
             score = [] #initialize empty array so that new score from text file can be append in score = []
 
             # will read score gather from client in the textfile (scoreboard.txt)
@@ -65,14 +67,17 @@ def threaded_client(conn):
                   board.append(i)
 
             print("\t\tScoreboard for Normal Difficulty: ",board) #print all the points in the board array
-#            print('Bye')
+
 
             # will overwrite the new score receive from client into the scoreboard.txt
             with open('scoreboardN.txt' , 'w') as filehandle:
                filehandle.writelines("%s\n" % place for place in board)
-#            print('done')
 
-         elif optH == 'b':
+
+
+
+
+         elif optH == 'b': # hard difficulty
             score = [] #initialize empty array so that new score from text file can be append in score = []
 
             # will read score gather from client in the textfile (scoreboard.txt)
@@ -100,12 +105,12 @@ def threaded_client(conn):
                   board.append(i)
 
             print("\t\tScoreboard for Normal Difficulty: ",board) #print all the points in the board array
-#            print('Bye')
+
 
             # will overwrite the new score receive from client into the scoreboard.txt
             with open('scoreboardH.txt' , 'w') as filehandle:
                filehandle.writelines("%s\n" % place for place in board)
-#            print('done')
+
 
 
 
@@ -126,17 +131,8 @@ def threaded_client(conn):
             conn.send(file_data) # send the file_data file to client so that client can view the scoreboard
             print("\t\tFile has been sent!")
 
-      elif opt == 'q':
-         print("bye")
-         break
-
    conn.close()
-#   s.close
-#   sys.exit()
-#   sys.exit()
 
-#      else:
-#         break
 
 # threading method so that many client can connect to the server
 while True:
