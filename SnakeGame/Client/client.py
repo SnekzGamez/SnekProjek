@@ -54,60 +54,60 @@ def snakeN():
    win.border(0)
    win.nodelay(1)
 
-   key = KEY_RIGHT                                                    # initialize key as value
+   btn = KEY_RIGHT                                                    # initialize btn as value
    score = 0
 
-   snake = [[4,10], [4,9], [4,8]]                                     # Initialize the snake coordinates
+   snek = [[4,10], [4,9], [4,8]]                                     # Initialize the snake coordinates
    food = [10,20]                                                     # for the first snake food coordinate
 
    win.addch(food[0], food[1], 'o')                                   # printing 'o' as the food of the snake
 
-   while key != 27:                                                   # while esc button did not press
+   while btn != 27:                                                   # while esc button did not press
        win.border(0)
-       win.addstr(0, 2, 'Score : ' + str(score) + ' ')                # will output score at the top
-       win.addstr(0, 27, ' SNAKE ')                                   # will output SNAKE at the top
-       win.timeout(int(100 - (len(snake)/5 + len(snake)/10)%100))     # speed is normal kept at 100
+       win.addstr(0, 2, 'SCORE : ' + str(score) + ' ')                # will output score at the top
+       win.addstr(0, 27, ' SNAKE GAME ')                              # will output SNAKE at the top
+       win.timeout(int(100 - (len(snek)/5 + len(snek)/10)%100))     # speed is normal kept at 100
 
-       prevKey = key                                                  # Previous key pressed
+       prevBtn = btn                                                  # Previous button pressed
        event = win.getch()
-       key = key if event == -1 else event
+       btn = btn if event == -1 else event
 
 
-       if key == ord(' '):                                            # will pause if space bar is press
-           key = -1                                                   # press space bar again to resume
-           while key != ord(' '):
-               key = win.getch()
-           key = prevKey
+       if btn == ord(' '):                                            # will pause if space bar is press
+           btn = -1                                                   # press space bar again to resume
+           while btn != ord(' '):
+               btn = win.getch()
+           btn = prevBtn
            continue
 
-       if key not in [KEY_LEFT, KEY_RIGHT, KEY_UP, KEY_DOWN, 27]:     # if unrecognize input is press
-           key = prevKey
+       if btn not in [KEY_LEFT, KEY_RIGHT, KEY_UP, KEY_DOWN, 27]:     # if unrecognize input is press
+           btn = prevBtn
 
        # if lenght of the snake increase, it will calculate the next coordinate for the snake head
        # This is taken care of later at [1].
-       snake.insert(0, [snake[0][0] + (key == KEY_DOWN and 1) + (key == KEY_UP and -1), snake[0][1] + (key == KEY_LEFT and -1) + (key == KEY_RIGHT and 1)])
+       snek.insert(0, [snek[0][0] + (btn == KEY_DOWN and 1) + (btn == KEY_UP and -1), snek[0][1] + (btn == KEY_LEFT and -1) + (btn == KEY_RIGHT and 1)])
 
        # In normal mode, snake can cross the border and appear at the other side of the border
-       if snake[0][0] == 0: snake[0][0] = 18
-       if snake[0][1] == 0: snake[0][1] = 58
-       if snake[0][0] == 19: snake[0][0] = 1
-       if snake[0][1] == 59: snake[0][1] = 1
+       if snek[0][0] == 0: snek[0][0] = 18
+       if snek[0][1] == 0: snek[0][1] = 58
+       if snek[0][0] == 19: snek[0][0] = 1
+       if snek[0][1] == 59: snek[0][1] = 1
 
        # game will break if snake run over itself
-       if snake[0] in snake[1:]: break
+       if snek[0] in snek[1:]: break
 
 
-       if snake[0] == food:                                            # snake will become longer as it eats food
+       if snek[0] == food:                                            # snake will become longer as it eats food
            food = []
            score += 10
            while food == []:
                food = [randint(1, 18), randint(1, 58)]                 # output the next coordinate of the snake food
-               if food in snake: food = []
+               if food in snek: food = []
            win.addch(food[0], food[1], 'o')
        else:
-           last = snake.pop()                                          # [1] if snake does not eat, length will not increase
+           last = snek.pop()                                          # [1] if snake does not eat, length will not increase
            win.addch(last[0], last[1], ' ')
-       win.addch(snake[0][0], snake[0][1], '0')
+       win.addch(snek[0][0], snek[0][1], '0')
 
    curses.endwin()
    print("\n\t\tScore - " + str(score)) #show score of the game
@@ -137,56 +137,56 @@ def snakeH():
    win.border(0)
    win.nodelay(1)
 
-   key = KEY_RIGHT                                                    # Initialize key as value
+   btn = KEY_RIGHT                                                    # Initialize btn as value
    score = 0
 
-   snake = [[4,10], [4,9], [4,8]]                                     # Initilize the snake coordinates
+   snek = [[4,10], [4,9], [4,8]]                                     # Initilize the snake coordinates
    food = [10,20]                                                     # for the first snake food coordinate
 
    win.addch(food[0], food[1], 'o')                                   # Printing 'o' as the food of the snake
 
-   while key != 27:                                                   # while esc button did not press
+   while btn != 27:                                                   # while esc button did not press
        win.border(0)
        win.addstr(0, 2, 'Score : ' + str(score) + ' ')                # will output score at the top
        win.addstr(0, 27, ' SNAKE ')                                   # will output SNAKE at the top
-       win.timeout(int(50 - (len(snake)/5 + len(snake)/10)%50))       # speed increase for hard mode kept at 50
+       win.timeout(int(50 - (len(snek)/5 + len(snek)/10)%50))       # speed increase for hard mode kept at 50
 
-       prevKey = key                                                  # Previous key pressed
+       prevBtn = btn                                                  # Previous key pressed
        event = win.getch()
-       key = key if event == -1 else event
+       btn = btn if event == -1 else event
 
 
-       if key == ord(' '):                                            # will pause if space bar is press
-           key = -1                                                   # press space bar again to resume
-           while key != ord(' '):
-               key = win.getch()
-           key = prevKey
+       if btn == ord(' '):                                            # will pause if space bar is press
+           btn = -1                                                   # press space bar again to resume
+           while btn != ord(' '):
+               btn = win.getch()
+           btn = prevBtn
            continue
 
-       if key not in [KEY_LEFT, KEY_RIGHT, KEY_UP, KEY_DOWN, 27]:     # If unrecognize input is press
+       if btn not in [KEY_LEFT, KEY_RIGHT, KEY_UP, KEY_DOWN, 27]:     # If unrecognize input is press
            key = prevKey
 
        # if length of the snake increase, it will calculate the next coordinate for the snake head
        # This is taken care of later at [1].
-       snake.insert(0, [snake[0][0] + (key == KEY_DOWN and 1) + (key == KEY_UP and -1), snake[0][1] + (key == KEY_LEFT and -1) + (key == KEY_RIGHT and 1)])
+       snek.insert(0, [snek[0][0] + (btn == KEY_DOWN and 1) + (btn == KEY_UP and -1), snek[0][1] + (btn == KEY_LEFT and -1) + (btn == KEY_RIGHT and 1)])
 
        # in hard mode snake cannot pass through border or it will break
-       if snake[0][0] == 0 or snake[0][0] == 19 or snake[0][1] == 0 or snake[0][1] == 59: break
+       if snek[0][0] == 0 or snek[0][0] == 19 or snek[0][1] == 0 or snek[0][1] == 59: break
 
        # game will break if snake run over itself
-       if snake[0] in snake[1:]: break
+       if snek[0] in snek[1:]: break
 
-       if snake[0] == food:                                            # snake will become longer as it eats the food
+       if snek[0] == food:                                            # snake will become longer as it eats the food
            food = []
            score += 10
            while food == []:
                food = [randint(1, 18), randint(1, 58)]                 # output the next coordinate of the snake food
-               if food in snake: food = []
+               if food in snek: food = []
            win.addch(food[0], food[1], 'o')
        else:
-           last = snake.pop()                                          # [1] if snake does not eat, length will not increase
+           last = snek.pop()                                          # [1] if snake does not eat, length will not increase
            win.addch(last[0], last[1], ' ')
-       win.addch(snake[0][0], snake[0][1], '0')
+       win.addch(snek[0][0], snek[0][1], '0')
 
    curses.endwin()
    print("\n\t\tScore - " + str(score)) #show latest score of snake game
